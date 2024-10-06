@@ -58,4 +58,6 @@ def find_on_image(image_path):
     )
     answer = response.choices[0].message.content
     logger.info(f"ChatGPT answer={answer}")
-    print(parse_answer(answer))
+    result = parse_answer(answer)
+    print(f"Result={result}")
+    return result
