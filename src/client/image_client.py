@@ -23,8 +23,11 @@ def encode_image(image):
     return base64.b64encode(image).decode('utf-8')
 
 
-def find_on_image():
+def find_on_image(image_path):
     client = OpenAI()
+
+    image = read_image(image_path)
+    base64_image = encode_image(image)
 
     response = client.chat.completions.create(
       model="gpt-4o-mini",
@@ -32,17 +35,17 @@ def find_on_image():
         {
           "role": "user",
           "content": [
-            {"type": "text", "text": "What’s in this image?"},
+            {"type": "text", "text": "Is there a person in a cap on the image? Answer Yes or No"},
             {
               "type": "image_url",
               "image_url": {
-                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                "url": f"data:image/jpeg;base64,{base64_image}",
               },
             },
           ],
         }
       ],
-      max_tokens=300,
+      max_tokens=1,
     )
 
     print(response.choices[0])
