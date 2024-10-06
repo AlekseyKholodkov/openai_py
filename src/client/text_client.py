@@ -1,4 +1,8 @@
+import logging
+
 from openai import OpenAI
+
+logger = logging.getLogger(__name__)
 
 
 def text_client():
@@ -13,4 +17,6 @@ def text_client():
             }
         ]
     )
-    print(completion.choices[0].message)
+    response = completion.choices[0]
+    logger.info(response)
+    return response.message

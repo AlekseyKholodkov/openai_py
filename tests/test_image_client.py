@@ -12,8 +12,6 @@ class Test(TestCase):
         print(f"Image size={sys.getsizeof(img)}")
         print(f"Image Base64 size={sys.getsizeof(img_base64)}")
 
-
-class Test(TestCase):
     def test_parse_answer(self):
         self.assertEqual(1, parse_answer("Yes"))
         self.assertEqual(1, parse_answer("YES"))

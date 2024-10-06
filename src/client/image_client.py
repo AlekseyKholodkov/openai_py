@@ -3,10 +3,7 @@ import sys
 import logging
 import base64
 
-logger = logging.getLogger("image_client")
-handler = logging.FileHandler("app.log")
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 def read_image(image_path):
@@ -33,6 +30,7 @@ def parse_answer(response):
 
 
 def find_on_image(image_path):
+    logger.debug(f"image_path={image_path}")
     client = OpenAI()
 
     image = read_image(image_path)

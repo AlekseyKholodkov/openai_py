@@ -3,15 +3,14 @@ import sys
 
 from src.client.image_client import read_image
 from src.client.image_client import find_on_image
+from src.client.text_client import text_client
 
-logger = logging.getLogger("openai_py")
-handler = logging.FileHandler("app.log")
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='app.log', encoding='UTF-8', filemode='w', level=logging.DEBUG,
+                    format='%(asctime)s | %(filename)s | %(message)s')
 
 
 def application():
-    # file_path = "resources/img-1.jpg"
-    # file = read_image(file_path)
-    # logger.info(f"File size={sys.getsizeof(file)}")
-    find_on_image("resources/img-1.jpg")
+    response_message = text_client()
+    logger.info(f"text_client response_message.content={response_message}")
+    # find_on_image("resources/img-1.jpg")
