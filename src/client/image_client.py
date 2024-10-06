@@ -23,6 +23,15 @@ def encode_image(image):
     return base64.b64encode(image).decode('utf-8')
 
 
+def parse_answer(response):
+    if response.lower() == 'yes':
+        return 1
+    elif response.lower() == 'no':
+        return 0
+    else:
+        return -1
+
+
 def find_on_image(image_path):
     client = OpenAI()
 
@@ -30,22 +39,23 @@ def find_on_image(image_path):
     base64_image = encode_image(image)
 
     response = client.chat.completions.create(
-      model="gpt-4o-mini",
-      messages=[
-        {
-          "role": "user",
-          "content": [
-            {"type": "text", "text": "Is there a person in a cap on the image? Answer Yes or No"},
+        model="gpt-4o-mini",
+        messages=[
             {
-              "type": "image_url",
-              "image_url": {
-                "url": f"data:image/jpeg;base64,{base64_image}",
-              },
-            },
-          ],
-        }
-      ],
-      max_tokens=1,
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "Is there a person in a cap on the image? Answer Yes or No"},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}",
+                        },
+                    },
+                ],
+            }
+        ],
+        max_tokens=1,
     )
-
-    print(response.choices[0])
+    answer = response.choices[0].message.content
+    logger.info(f"ChatGPT answer={answer}")
+    print(parse_answer(answer))
